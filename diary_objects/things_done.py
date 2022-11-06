@@ -8,10 +8,11 @@ class ThingsDone(JSONSerializable):
         return {
             "time": self.time,
             "description": self.description,
-            "oddness": self.oddness
+            "oddness": str(self.oddness),
+            "happiness": str(self.happiness)
         }
 
-    def __init__(self, time, description, oddness):
+    def __init__(self, time, description, oddness, happiness):
         # Checks for time
         if type(time) != str:
             raise AttributeError("Time is not a string")
@@ -29,6 +30,14 @@ class ThingsDone(JSONSerializable):
         if oddness < 0 or oddness > 10:
             raise AttributeError("Oddness should be in range of 0-10 inclusively")
 
+        # happiness
+
+        if type(happiness) != int:
+            raise AttributeError("Happiness is not an integer")
+        if oddness < 0 or oddness > 10:
+            raise AttributeError("Oddness should be in range of 0-10 inclusively")
+
         self.time = time
         self.description = description
         self.oddness = oddness
+        self.happiness = happiness

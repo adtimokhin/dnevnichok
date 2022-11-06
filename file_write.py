@@ -1,11 +1,15 @@
 from datetime import date
+from datetime import datetime
 import json
 from diary_objects.security_protocol import SecurityProtocol
+from file_read import diary_file_exists, read_file_json_data
 
 """
 Returns today's date in format dd-mm-YY
 """
 DEFAULT_TODAY_FORMATTED = date.today().strftime("%d-%m-%Y")
+DEFAULT_TIME_NOW_FORMATTED = datetime.now().strftime("%H:%M")
+FILES_DIRECTORY = "./data/"
 
 
 def create_empty_diary_file():
@@ -44,48 +48,10 @@ def create_empty_diary_file():
         "things_done": []
     }
 
-    json_object = json.dumps(empty_diary_entry, indent=len(empty_diary_entry))
-    with open(f"{today_file_name_formatted}.json", "w") as f:
-        f.write(json_object)
-
-
-def diary_file_exists(diary_date=DEFAULT_TODAY_FORMATTED):
-    """
-    Checks whether diary file for a given date exists in
-    a directory that stores all the files.
-
-    :param diary_date: (str) in format dd-mm-YY representing the day of the dairy entry
-    :return: True is the file exists, else false. (bool)
-    """
-    try:
-        open(f"{diary_date}.json", "r")
-        return True
-    except FileNotFoundError:
-        return False
-    except Exception:
-        return False
-
-
-def read_file_json_data(diary_date=DEFAULT_TODAY_FORMATTED):
-    """
-    Returns contents of a JSON file by its date of creation.
-    If the file does not exist it will either create it (if the
-    diary_date is set for today), else will raise an error.
-
-    :param diary_date: date in format: dd-mm-YY (str)
-    :return: JSON object converted to python dictionary (dict)
-    """
-    if not diary_file_exists(diary_date):
-        if DEFAULT_TODAY_FORMATTED.__eq__(diary_date):
-            # We can create the file
-            create_empty_diary_file()
-        else:
-            # Else we need to raise an error
-            raise FileNotFoundError
-
-    with open(f"{diary_date}.json", "r") as f:
-        data = json.load(f)
-    return data
+    __write_file_json_data(today_file_name_formatted, empty_diary_entry)
+    # json_object = json.dumps(empty_diary_entry, indent=len(empty_diary_entry))
+    # with open(f"{FILES_DIRECTORY}{today_file_name_formatted}.json", "w") as f:
+    #     f.write(json_object)
 
 
 def __write_file_json_data(diary_date, json_object):
@@ -98,7 +64,7 @@ def __write_file_json_data(diary_date, json_object):
     :return: None
     """
     json_object_to_save = json.dumps(json_object, indent=len(json_object), ensure_ascii=False)
-    with open(f"{diary_date}.json", "w", encoding="utf8") as f:
+    with open(f"{FILES_DIRECTORY}{diary_date}.json", "w", encoding="utf8") as f:
         f.write(json_object_to_save)
 
 

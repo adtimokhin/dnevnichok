@@ -99,9 +99,6 @@ To start Dnevnichok, open up the terminal and navigate to the folder where you s
 python3 main.py
 ```
 
-You should be presented with this message:
-![Picture that contains a welcome message from the program](/Users/atimokhina/Desktop/Screenshot 2022-11-05 at 8.50.41 PM.png "This is what you should see when you launch the program")
-
 You are presented with the following command options:
 
 `1` - will print a list of all dates for which the diary entries exist
